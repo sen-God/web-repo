@@ -1,0 +1,40 @@
+在网购网站下单时会生成cookie保存在本地，每个商品都有一个（或多个？）标签，保存在本地的这个标签越多说明这个人越关心这方面的商品，广告系统就可以读取cookie，根据标签调整推送权重，然后访问网购界面的时候留几个小窗口去访问广告系统，返回经过权重计算后的广告就大概率是这个用户感兴趣的广告
+
+新闻的也差不多
+
+广告系统主要就是需要连接数据库，数据库内存有各种广告，包括广告图片 文字等等
+广告系统被访问时要先读取本地cookie
+跨域读取需要在保存cookie时设置samesite属性为none 同时配置响应头cors，比如
+
+import javax.servlet.*;
+import javax.servlet.http.*;
+import java.io.IOException;
+
+public class CORSServlet extends HttpServlet {
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // 设置CORS响应头
+        response.setHeader("Access-Control-Allow-Origin", "http://www.example.com"); // 指定允许访问的域名
+        response.setHeader("Access-Control-Allow-Methods", "GET, POST, PUT, DELETE, OPTIONS"); // 允许的HTTP方法
+        response.setHeader("Access-Control-Allow-Headers", "Content-Type, Authorization"); // 允许的请求头
+        response.setHeader("Access-Control-Allow-Credentials", "true"); // 允许发送Cookie
+        response.setHeader("Access-Control-Max-Age", "3600"); // 预检请求的缓存时间
+
+        // 处理OPTIONS请求，这是预检请求
+        if ("OPTIONS".equalsIgnoreCase(request.getMethod())) {
+            response.setStatus(HttpServletResponse.SC_OK);
+        } else {
+            // 处理实际的请求
+            // ...
+        }
+    }
+
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        // 处理POST请求
+        // ...
+    }
+
+    // 其他方法...
+}
+
+这样才能让保存的cookie被广告系统的服务器读取信息
+然后根据不同标签的出现频率调整权重（随便用个算法设计一下就行），然后取随机（和cookie信息相关的广告会更容易被抽到），随后去数据库读取对应的广告，返回给request，然后购物界面/新闻界面的广告窗口就会加载出对应的广告了
