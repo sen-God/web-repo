@@ -1,0 +1,170 @@
+#background{
+    border-radius: 15px;
+    background-image: linear-gradient(0deg,#5481dd,#bc84de);
+    border-color: #ed8a99;
+    border-style: solid;
+    border-width: 20px;
+    width: 1150px;
+    height: 2600px;
+    position: absolute;
+    left: 100px;
+    top: 250px;
+}
+#bicycle{
+    background: #a0c8f1;
+    width: 300px;
+    height: 450px;
+    border-radius: 20px;
+    position: absolute;
+    left: 275px;
+    top: 300px;
+}
+#button1{
+    position: absolute;
+    margin: 10px;
+    left: 375px;
+    top: 700px;
+}
+#wukong{
+    background: #a0c8f1;
+    width: 300px;
+    height: 450px;
+    border-radius: 20px;
+    position: absolute;
+    left: 825px;
+    top: 300px;
+}
+#button2{
+    position: absolute;
+    margin: 10px;
+    left: 925px;
+    top: 700px;
+}
+#pc{
+    background: #a0c8f1;
+    width: 300px;
+    height: 450px;
+    border-radius: 20px;
+    position: absolute;
+    left: 275px;
+    top: 800px;
+}
+#button3{
+    position: absolute;
+    margin: 10px;
+    left: 375px;
+    top: 1200px;
+}
+#phone{
+    background: #a0c8f1;
+    width: 300px;
+    height: 450px;
+    border-radius: 20px;
+    position: absolute;
+    left: 825px;
+    top: 800px;
+}
+#button4{
+    position: absolute;
+    margin: 10px;
+    left: 925px;
+    top: 1200px;
+}
+#wine{
+    background: #a0c8f1;
+    width: 300px;
+    height: 450px;
+    border-radius: 20px;
+    position: absolute;
+    left: 275px;
+    top: 1300px;
+}
+#button5{
+    position: absolute;
+    margin: 10px;
+    left: 375px;
+    top: 1700px;
+}
+#spirit{
+    background: #a0c8f1;
+    width: 300px;
+    height: 450px;
+    border-radius: 20px;
+    position: absolute;
+    left: 825px;
+    top: 1300px;
+}
+#button6{
+
+    position: absolute;
+    margin: 10px;
+    left: 925px;
+    top: 1700px;
+}
+#facewash{
+    background: #a0c8f1;
+    width: 300px;
+    height: 450px;
+    border-radius: 20px;
+    position: absolute;
+    left: 275px;
+    top: 1800px;
+}
+#button7{
+    position: absolute;
+    margin: 10px;
+    left: 375px;
+    top: 2200px;
+}
+#bath_cream{
+    background: #a0c8f1;
+    width: 300px;
+    height: 450px;
+    border-radius: 20px;
+    position: absolute;
+    left: 825px;
+    top: 1800px;
+}
+#button8{
+    position: absolute;
+    margin: 10px;
+    left: 925px;
+    top: 2200px;
+}
+#sanguo{
+    background: #a0c8f1;
+    width: 300px;
+    height: 450px;
+    border-radius: 20px;
+    position: absolute;
+    left: 275px;
+    top: 2300px;
+}
+#button9{
+    position: absolute;
+    margin: 10px;
+    left: 375px;
+    top: 2700px;
+}
+#shoes{
+    background: #a0c8f1;
+    width: 300px;
+    height: 450px;
+    border-radius: 20px;
+    position: absolute;
+    left: 825px;
+    top: 2300px;
+}
+#button10{
+    position: absolute;
+    margin: 10px;
+    left: 925px;
+    top: 2700px;
+}
+#gotocart{
+    position: absolute;
+    width: 100px;
+    height: 40px;
+    left:650px;
+    top:300px;
+}
