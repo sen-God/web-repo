@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>新闻网站</title>
+    <link rel="stylesheet" href="css/style.css">
+</head>
+<body>
+<header>
+    <nav>
+        <div class="logo">新闻网站</div>
+        <div class="search-box">
+            <input type="text" id="searchInput" placeholder="搜索新闻...">
+            <button onclick="searchNews()">搜索</button>
+        </div>
+        <div class="categories">
+            <button onclick="loadNewsByCategory('')">全部</button>
+            <button onclick="loadNewsByCategory('科技')">科技</button>
+            <button onclick="loadNewsByCategory('体育')">体育</button>
+            <button onclick="loadNewsByCategory('娱乐')">娱乐</button>
+        </div>
+    </nav>
+</header>
+
+<main>
+    <div class="container">
+        <div class="news-container" id="newsContainer"></div>
+        <div class="ad-container" id="adContainer"></div>
+    </div>
+</main>
+
+<script src="js/news.js"></script>
+<script src="js/ads.js"></script>
+</body>
+</html>
