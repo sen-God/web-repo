@@ -1,0 +1,109 @@
+理论上两个IP地址不同的服务器无法互相访问对方的cookie，但是可以让生成cookie的服务器留出一个接口
+假如a服务器生成cookie保存在用户电脑上，服务器b想要读取服务器a保存的cookie上的数据内容
+如果直接让b去读cookie是读不到的
+但是可以让b去访问一个a留出来的接口，这个接口会去以a服务器的名义读取cookie内容，然后返回给b
+也就是b"伪装"成是a要读取cookie骗过浏览器，但实际上读取的cookie被发送到了b服务器
+然后b就可以处理读取到的cookie，执行广告推送算法
+具体看下面我和chatgpt的对话，尤其看最后有个流程图
+
+
+
+
+
+也就是说，服务器B想要获取服务器A的cookie，直接访问是做不到的，但是我可以通过访问服务器A的接口，装作是服务器A获取cookie然后发送给服务器B是吗
+ChatGPT 说：
+ChatGPT
+是的，直接访问服务器 A 的 Cookie 是做不到的，因为 Cookie 是浏览器基于域（或 IP 地址）隔离的。浏览器不会将服务器 A 的 Cookie 自动发送给服务器 B。但是，你可以通过设计一种中转机制，让服务器 B 间接获取服务器 A 的 Cookie 数据。
+
+具体过程如下：
+
+核心思路
+服务器 A 提供接口：服务器 A 提供一个接口，该接口将它需要共享的 Cookie 数据返回给调用者。
+服务器 B 伪装为客户端：服务器 B 在收到用户请求时，主动调用服务器 A 的接口，获取相关的 Cookie 数据。
+服务器 B 使用数据：服务器 B 获取这些数据后，可以根据需要返回给客户端，或者用于自己的逻辑处理。
+实现示例
+假设的场景
+服务器 A（IP 地址：10.100.164.46）：负责设置和保存 Cookie。
+服务器 B（IP 地址：10.100.164.39）：需要访问服务器 A 的 Cookie 数据。
+步骤
+1. 服务器 A 提供接口
+在服务器 A 中，提供一个接口，用于返回共享的 Cookie 数据。
+
+java
+复制代码
+@WebServlet("/getCookieData")
+public class GetCookieDataServlet extends HttpServlet {
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        // 从请求中获取 Cookie
+        Cookie[] cookies = request.getCookies();
+        String sharedData = null;
+
+        if (cookies != null) {
+            for (Cookie cookie : cookies) {
+                if ("sharedData".equals(cookie.getName())) {
+                    sharedData = cookie.getValue();
+                    break;
+                }
+            }
+        }
+
+        // 返回 Cookie 数据
+        response.setContentType("application/json");
+        response.getWriter().write("{\"sharedData\": \"" + (sharedData != null ? sharedData : "null") + "\"}");
+    }
+}
+2. 服务器 B 调用服务器 A 的接口
+在服务器 B 中，提供一个接口，当客户端访问服务器 B 时，服务器 B 直接调用服务器 A 的接口获取数据。
+
+java
+复制代码
+@WebServlet("/fetchFromA")
+public class FetchFromAServlet extends HttpServlet {
+    @Override
+    protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
+        // 调用服务器 A 的接口
+        String serverAUrl = "http://10.100.164.46/getCookieData";
+        URL url = new URL(serverAUrl);
+        HttpURLConnection connection = (HttpURLConnection) url.openConnection();
+        connection.setRequestMethod("GET");
+
+        // 获取服务器 A 的响应
+        String sharedData;
+        try (InputStream inputStream = connection.getInputStream()) {
+            byte[] data = inputStream.readAllBytes();
+            sharedData = new String(data);
+        }
+
+        // 返回服务器 A 的数据给客户端
+        response.setContentType("application/json");
+        response.getWriter().write(sharedData);
+    }
+}
+3. 客户端访问服务器 B
+当客户端访问服务器 B 的 /fetchFromA 接口时：
+
+服务器 B 会调用服务器 A 的 /getCookieData 接口。
+获取到的数据再由服务器 B 返回给客户端。
+流程图
+arduino
+复制代码
+Client --> Server B (/fetchFromA) --> Server A (/getCookieData)
+          <-- Server B 返回数据 <-- Server A 返回数据
+优势
+浏览器安全限制绕过：浏览器不会自动共享 Cookie，但服务器之间的通信不受这个限制。
+灵活性高：服务器 B 可以对数据进行处理，例如存储、修改或直接返回给客户端。
+注意事项
+安全性：
+确保服务器 A 的接口受保护，仅可信方（如服务器 B）可以调用。
+可以通过 API 密钥或 IP 白名单限制访问。
+性能问题：
+每次服务器 B 的请求都会调用服务器 A，增加了网络延迟和负载。
+如果数据变化不频繁，可以考虑使用缓存机制。
+通过这种方式，服务器 B 能够“伪装”成客户端，成功获取服务器 A 的 Cookie 数据并加以利用。这种模式常用于跨域数据共享和服务集成场景。
+
+
+
+
+
+
