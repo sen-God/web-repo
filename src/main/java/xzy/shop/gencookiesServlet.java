@@ -14,41 +14,35 @@ public class gencookiesServlet extends HttpServlet {
     }
     //点击加入购物车按钮时调用，加入购物车数组并生成cookie
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-        if(request.getParameter("add_to_cart").equals("加入购物车")) {
+        if(request.getParameter("add_to_cart") !=null &&request.getParameter("add_to_cart").equals("加入购物车")) {
+            add_to_Cart(request,request.getParameter("item"));
             switch (request.getParameter("item")){
                 case "shoes":
                 case "bicycle":
-                    add_to_Cart(request,request.getParameter("item"));
                     gencookies(request,response,"sports");
-                    //System.out.println("sports");
                     break;
                 case "pc":
                 case "phone":
-                    add_to_Cart(request,request.getParameter("item"));
                     gencookies(request,response,"electronics");
-                    //System.out.println("electronics");
                     break;
                 case "wine":
                 case "spirit":
-                    add_to_Cart(request,request.getParameter("item"));
                     gencookies(request,response,"liquor");
-                    //System.out.println("liquor");
                     break;
                 case "sanguo":
                 case "wukong":
-                    add_to_Cart(request,request.getParameter("item"));
                     gencookies(request,response,"book");
-                    //System.out.println("book");
                     break;
                 case "facewash":
                 case "bath_cream":
-                    add_to_Cart(request,request.getParameter("item"));
                     gencookies(request,response,"bath_item");
-                    //System.out.println("bath_item");
                     break;
                 default:
                     request.getRequestDispatcher("shopping.jsp").forward(request,response);
             }
+            request.getRequestDispatcher("shopping.jsp").forward(request,response);
+        } else if (request.getParameter("delete_from_cart")!=null && request.getParameter("delete_from_cart").equals("移除购物车")) {
+            delete_from_cart(request,request.getParameter("item"));
             request.getRequestDispatcher("shopping.jsp").forward(request,response);
         }
     }
@@ -62,7 +56,6 @@ public class gencookiesServlet extends HttpServlet {
             for(Cookie cookie : cookies) {
                 if(cookie.getName().equals(item)) {//如果有cookie类名对应上
                     int n= Integer.parseInt(cookie.getValue())+1;
-                    System.out.println(n);
                     cookie.setValue(String.valueOf(n));
                     response.addCookie(cookie);
                     return;
@@ -70,30 +63,61 @@ public class gencookiesServlet extends HttpServlet {
             }
             //如果上面循环没找到cookies中的类名，那就新增一个
             Cookie cookie=new Cookie(item,"1");
-            cookie.setMaxAge(60*5);
+            cookie.setMaxAge(60*10);
             response.addCookie(cookie);
         }
         else {
             Cookie cookie=new Cookie(item,"1");
-            cookie.setMaxAge(60*5);
+            cookie.setMaxAge(60*10);
             response.addCookie(cookie);
+        }
+    }
+    public static void gencookies(HttpServletRequest request, HttpServletResponse response,String item,int n) {
+        response.setContentType("text/html");
+        Cookie[] cookies=request.getCookies();
+        if(cookies != null) {//如果第一次添加也就是没有任何cookie
+            for(Cookie cookie : cookies) {
+                if(cookie.getName().equals(item)) {//如果有cookie类名对应上
+                    n+= Integer.parseInt(cookie.getValue());
+                    cookie.setValue(String.valueOf(n));
+                    response.addCookie(cookie);
+                    return;
+                }
+            }
+            if(n!=0){
+            //如果上面循环没找到cookies中的类名并且购物车中数量不是0，那就新增一个，下同
+            Cookie cookie=new Cookie(item,String.valueOf(n));
+            cookie.setMaxAge(60*10);
+            response.addCookie(cookie);
+            }
+        }
+        else {
+            if(n!=0) {
+                Cookie cookie = new Cookie(item, String.valueOf(n));
+                cookie.setMaxAge(60 * 10);
+                response.addCookie(cookie);
+            }
         }
     }
     //添加到购物车，更新数量
     public static void add_to_Cart(HttpServletRequest request,String shopped_item) {
         HttpSession session=request.getSession();
         String[][] items= (String[][]) session.getAttribute("cart");
-        for(String[] item:items){
-            if(item[0]!=null && item[0].equals(shopped_item)) {
+        for(String[] item:items){//假如购物车已经有了这个商品
+            if(item[0].equals(shopped_item)) {
                 int n= Integer.parseInt(item[1]);
                 item[1]=String.valueOf(n+1);
                 return;
             }
         }
+    }
+    public static void delete_from_cart(HttpServletRequest request,String shopped_item) {
+        HttpSession session=request.getSession();
+        String[][] items= (String[][]) session.getAttribute("cart");
         for(String[] item:items){
-            if(item[0]==null){
-                item[0]=shopped_item;
-                item[1]=String.valueOf(1);
+            if(item[0].equals(shopped_item)) {
+                int n= Integer.parseInt(item[1]);
+                item[1]=String.valueOf(n-1);
                 return;
             }
         }
