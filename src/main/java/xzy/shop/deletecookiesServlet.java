@@ -16,7 +16,12 @@ public class deletecookiesServlet extends HttpServlet {
         Cookie[] cookies = request.getCookies();
         if (cookies != null) {
             for (Cookie cookie : cookies) {
-                cookie.setMaxAge(0);
+                if (!cookie.getName().equals("JSESSIONID")) {
+                    System.out.println(cookie.getName());
+                    System.out.println(cookie.getValue());
+                    cookie.setMaxAge(0);
+                    response.addCookie(cookie);
+                }
             }
         }
         request.getRequestDispatcher("shopping.jsp").forward(request,response);

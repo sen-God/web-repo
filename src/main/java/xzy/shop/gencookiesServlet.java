@@ -49,6 +49,7 @@ public class gencookiesServlet extends HttpServlet {
                 default:
                     request.getRequestDispatcher("shopping.jsp").forward(request,response);
             }
+            request.getRequestDispatcher("shopping.jsp").forward(request,response);
         }
     }
     //如果这个类别cookie不存在，就生成这个类别的cookie并设置值为1
@@ -56,29 +57,25 @@ public class gencookiesServlet extends HttpServlet {
     //关于cookie跨域问题待验证 setdomain/setpath/response头
     public static void gencookies(HttpServletRequest request, HttpServletResponse response,String item) {
         response.setContentType("text/html");
-        response.setHeader("Access-Control-Allow-Origin","???");
-        response.setHeader("Access-Control-Allow-Credentials", "true");
         Cookie[] cookies=request.getCookies();
-        if(cookies != null) {
+        if(cookies != null) {//如果第一次添加也就是没有任何cookie
             for(Cookie cookie : cookies) {
-                if(cookie.getName().equals(item)) {
-                    int n= Integer.parseInt(cookie.getValue());
-                    n++;
+                if(cookie.getName().equals(item)) {//如果有cookie类名对应上
+                    int n= Integer.parseInt(cookie.getValue())+1;
+                    System.out.println(n);
                     cookie.setValue(String.valueOf(n));
+                    response.addCookie(cookie);
                     return;
                 }
             }
+            //如果上面循环没找到cookies中的类名，那就新增一个
             Cookie cookie=new Cookie(item,"1");
             cookie.setMaxAge(60*5);
-            cookie.setPath("/");
-            cookie.setDomain("localhost");
             response.addCookie(cookie);
         }
         else {
             Cookie cookie=new Cookie(item,"1");
             cookie.setMaxAge(60*5);
-            cookie.setPath("/");
-            cookie.setDomain("localhost");
             response.addCookie(cookie);
         }
     }
