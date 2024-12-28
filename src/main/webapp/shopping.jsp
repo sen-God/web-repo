@@ -15,7 +15,7 @@
 <a href="link3右下角广告链接"><img id="ad_right_bottom_fixed" src="https://tse3-mm.cn.bing.net/th/id/OIP-C.8tlwbGsJvlNZwGAGL36W8AHaFS?w=248&h=180&c=7&r=0&o=5&dpr=2.3&pid=1.7" alt="横幅广告"></a>
 <script>
     function x(){
-        alert('结账完成，共消费${sessionScope.cart[0][1]*300+
+        alert('结账完成，共消费${sessionScope.cart[0][1]*500+
         sessionScope.cart[1][1]*99+
         sessionScope.cart[2][1]*5000+
         sessionScope.cart[3][1]*3500+
@@ -27,7 +27,7 @@
         sessionScope.cart[9][1]*269}元')
     }
 </script>
-<a href="checkout"> <button id="checkout" onclick="x()">总价:${sessionScope.cart[0][1]*300+
+<a href="checkout"> <button id="checkout" onclick="x()">总价:${sessionScope.cart[0][1]*500+
         sessionScope.cart[1][1]*99+
         sessionScope.cart[2][1]*5000+
         sessionScope.cart[3][1]*3500+
