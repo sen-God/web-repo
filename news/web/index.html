@@ -1,10 +1,19 @@
-<!DOCTYPE html>
+<%--
+Created by IntelliJ IDEA.
+User: Lenovo
+Date: 2024/12/27
+Time: 21:54
+To change this template use File | Settings | File Templates.
+--%>
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<%@ page import="main.java.com.example.Util.CookieUtil" %>
+<%@ page import="java.util.List" %>
 <html lang="zh">
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>新闻网站</title>
-    <link rel="stylesheet" href="css/style.css">
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
 </head>
 <body>
 <header>
@@ -15,10 +24,10 @@
             <button onclick="searchNews()">搜索</button>
         </div>
         <div class="categories">
-            <button onclick="loadNewsByCategory('')">全部</button>
-            <button onclick="loadNewsByCategory('科技')">科技</button>
-            <button onclick="loadNewsByCategory('体育')">体育</button>
-            <button onclick="loadNewsByCategory('娱乐')">娱乐</button>
+            <button onclick="loadNewsByCategory('')" class="category-btn active">全部</button>
+            <button onclick="loadNewsByCategory('科技')" class="category-btn">科技</button>
+            <button onclick="loadNewsByCategory('体育')" class="category-btn">体育</button>
+            <button onclick="loadNewsByCategory('娱乐')" class="category-btn">娱乐</button>
         </div>
     </nav>
 </header>
@@ -26,11 +35,31 @@
 <main>
     <div class="container">
         <div class="news-container" id="newsContainer"></div>
-        <div class="ad-container" id="adContainer"></div>
+        <div class="sidebar">
+            <div class="history-container">
+                <h3>浏览历史</h3>
+                <div class="history-categories">
+                    <%
+                    List<String> history = CookieUtil.getHistory(request);
+                    for (String category : history) {
+                    %>
+                    <span class="history-category" onclick="loadNewsByCategory('<%= category %>')">
+                                <%= category %>
+                            </span>
+                    <%
+                    }
+                    if (history.isEmpty()) {
+                    %>
+                    <p>暂无浏览历史</p>
+                    <%
+                    }
+                    %>
+                </div>
+            </div>
+            <div class="ad-container" id="adContainer"></div>
+        </div>
     </div>
 </main>
 
-<script src="js/news.js"></script>
-<script src="js/ads.js"></script>
 </body>
 </html>

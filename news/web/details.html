@@ -1,0 +1,102 @@
+<%@ page contentType="text/html;charset=UTF-8" language="java" %>
+<html lang="zh">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>新闻详情</title>
+    <link rel="stylesheet" href="${pageContext.request.contextPath}/css/style.css">
+    <style>
+        .news-detail {
+            max-width: 800px;
+            margin: 2rem auto;
+            padding: 2rem;
+            background: white;
+            border-radius: 8px;
+            box-shadow: 0 2px 4px rgba(0,0,0,0.1);
+        }
+        .news-meta {
+            color: #666;
+            font-size: 0.9rem;
+            margin: 1rem 0;
+        }
+        .news-content {
+            line-height: 1.6;
+            margin-top: 2rem;
+        }
+        .back-button {
+            display: inline-block;
+            padding: 0.5rem 1rem;
+            background: #1a73e8;
+            color: white;
+            text-decoration: none;
+            border-radius: 4px;
+            margin-bottom: 1rem;
+        }
+    </style>
+</head>
+<body>
+<header>
+    <nav>
+        <div class="logo">新闻网站</div>
+    </nav>
+</header>
+
+<main>
+    <div class="news-detail">
+        <a href="${pageContext.request.contextPath}/index.jsp" class="back-button">返回首页</a>
+        <div id="newsDetail"></div>
+    </div>
+</main>
+
+<script>
+    // 格式化日期函数
+    function formatDate(dateString) {
+        const date = new Date(dateString);
+        return date.toLocaleString();
+    }
+
+    // 从URL获取新闻ID
+    const urlParams = new URLSearchParams(window.location.search);
+    const newsId = urlParams.get('id');
+
+    // 修改 contextPath 的获取方式
+    const contextPath = '${pageContext.request.contextPath}';
+    console.log('Context Path:', contextPath);
+
+    // 获取新闻详情
+    if (newsId) {
+        const url = contextPath + '/api/news/' + newsId;
+        console.log('Requesting URL:', url);
+
+        fetch(url)
+            .then(response => {
+                console.log('Response status:', response.status);
+                console.log('Response URL:', response.url);
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(news => {
+                console.log('Received news:', news);
+                const newsDetail = document.getElementById('newsDetail');
+                newsDetail.innerHTML =
+                    '<h1>' + news.title + '</h1>' +
+                    '<div class="news-meta">' +
+                    '<span>分类：' + news.category + '</span>' +
+                    '<span>发布时间：' + formatDate(news.createTime) + '</span>' +
+                    '</div>' +
+                    '<div class="news-content">' + news.content + '</div>';
+            })
+            .catch(error => {
+                console.error('Error:', error);
+                const newsDetail = document.getElementById('newsDetail');
+                newsDetail.innerHTML = '<div class="error">加载新闻失败，请稍后重试</div>';
+            });
+    } else {
+        const newsDetail = document.getElementById('newsDetail');
+        newsDetail.innerHTML = '<div class="error">无效的新闻 ID</div>';
+    }
+</script>
+</body>
+</html>
