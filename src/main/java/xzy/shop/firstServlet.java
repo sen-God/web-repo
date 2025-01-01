@@ -16,4 +16,5 @@ public class firstServlet extends HttpServlet {
         }
         request.getRequestDispatcher("shopping.jsp").forward(request,response);
     }
+
 }
