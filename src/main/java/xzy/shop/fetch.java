@@ -7,17 +7,17 @@ import jakarta.servlet.http.*;
 import jakarta.servlet.annotation.*;
 
 @WebServlet("/fetch")
-//给外部服务器访问的接口，响应返回数组
+//给外部服务器访问的接口，响应返回数组,这个文件放在购物网站
 public class fetch extends HttpServlet {
 
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws IOException {
         String sport= readitem("sports");
-        String electronic= readitem("electronic");
-        String liquors=readitem("liquors");
+        String electronics= readitem("electronics");
+        String liquor=readitem("liquor");
         String book=readitem("book");
         String bath_item=readitem("bath_item");
-        String[][] num={{"sports",sport},{"liquors",liquors},{"book",book},{"bath_item",bath_item},{"electronic",electronic}};
+        String[] num={sport,electronics,liquor,book,bath_item};
         response.setContentType("text/plain");
         response.setCharacterEncoding("UTF-8");
         response.getWriter().write(Arrays.toString(num));

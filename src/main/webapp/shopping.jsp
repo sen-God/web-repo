@@ -3,6 +3,7 @@
 <html>
 <head>
     <title>购物界面</title>
+    <meta name="referrer" content="no-referrer">
     <link href="shopping.css" rel="stylesheet" type="text/css"/>
 </head>
 <body>
@@ -10,9 +11,9 @@
 <img id="background"/>
 <div id="welcome"><h1>欢迎购物 &ensp;&ensp;&ensp;&ensp;&ensp;&ensp;&ensp;Welcome to the shop</h1></div>
 <img id="itembackground"/>
-<a href="link1横幅广告链接" ><img id="ad_banner" src="https://tse3-mm.cn.bing.net/th/id/OIP-C.8tlwbGsJvlNZwGAGL36W8AHaFS?w=248&h=180&c=7&r=0&o=5&dpr=2.3&pid=1.7" alt="横幅广告"></a>
-<a href="link2左侧广告链接" ><img id="ad_left_fixed" src="https://tse3-mm.cn.bing.net/th/id/OIP-C.8tlwbGsJvlNZwGAGL36W8AHaFS?w=248&h=180&c=7&r=0&o=5&dpr=2.3&pid=1.7" alt="横幅广告"></a>
-<a href="link3右下角广告链接"><img id="ad_right_bottom_fixed" src="https://tse3-mm.cn.bing.net/th/id/OIP-C.8tlwbGsJvlNZwGAGL36W8AHaFS?w=248&h=180&c=7&r=0&o=5&dpr=2.3&pid=1.7" alt="横幅广告"></a>
+<a href="link1横幅广告链接" ><img id="ad_banner" src="http://10.100.164.46:8080/shop-1.0-SNAPSHOT/getimage_banner" alt="横幅广告"></a>
+<a href="link2左侧广告链接" ><img id="ad_left_fixed" src="http://10.100.164.46:8080/shop-1.0-SNAPSHOT/getimage_left" alt="横幅广告"></a>
+<a href="link3右下角广告链接"><img id="ad_right_bottom_fixed" src="http://10.100.164.46:8080/shop-1.0-SNAPSHOT/getimage_right_bottom" alt="横幅广告"></a>
 <script>
     function x(){
         alert('结账完成，共消费${sessionScope.cart[0][1]*500+
@@ -129,7 +130,7 @@
     <c:if test="${sessionScope.cart[9][1]=='0'}"> disabled </c:if>></div>
     <input type="hidden" name="item" value="shoes">
 </form>
-<div id="deletecookies"><a href="deletecookies"> <button>删掉所有cookie(测试用)</button></a></div>
+<div id="deletecookies"><a href="deletecookies"> <button>删掉所有记录(测试用)</button></a></div>
 
 </body>
 </html>
