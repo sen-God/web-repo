@@ -12,15 +12,6 @@ public class deletecookiesServlet extends HttpServlet {
         doPost(request, response);
     }
     public void doPost(HttpServletRequest request, HttpServletResponse response) throws IOException, ServletException {
-//        Cookie[] cookies = request.getCookies();
-//        if (cookies != null) {
-//            for (Cookie cookie : cookies) {
-//                if (!cookie.getName().equals("JSESSIONID")) {//删除除了会话级cookie以外的所有cookie
-//                    cookie.setMaxAge(0);
-//                    response.addCookie(cookie);
-//                }
-//            }
-//        }
         delete("sports");
         delete("book");
         delete("electronics");

@@ -8,7 +8,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Arrays;
 
 @WebServlet("/getimage_right_bottom")
 public class getimage_right_bottom extends HttpServlet {
@@ -46,10 +45,6 @@ public class getimage_right_bottom extends HttpServlet {
             array[i]=Integer.parseInt(num[i].trim());
         }
 
-        System.out.println(Arrays.toString(array));
-        for (int j : array) {
-            System.out.println(j);
-        }
         int max1=0,max2=0,max3=0;
         int n1=0,n2=0,n3=0;
         for (int i = 0; i < array.length; i++) {
@@ -79,8 +74,6 @@ public class getimage_right_bottom extends HttpServlet {
         else {//默认
             url_right_bottom="http://47.116.49.214:8080/ssm2bl10-1.0-SNAPSHOT/sports/right_bottom.png";
         }
-
-        //url_right_bottom = "http://localhost:8080/shop_war_exploded/upload/test.png";
 
         try {
             // 创建到目标服务器的连接

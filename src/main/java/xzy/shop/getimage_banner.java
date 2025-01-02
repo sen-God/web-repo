@@ -6,7 +6,6 @@ import jakarta.servlet.annotation.*;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Arrays;
 
 @WebServlet("/getimage_banner")
 public class getimage_banner extends HttpServlet {
@@ -28,7 +27,6 @@ public class getimage_banner extends HttpServlet {
         HttpURLConnection connect = (HttpURLConnection) u.openConnection();
         connect.setRequestMethod("GET");
         connect.setRequestProperty("Accept", "text/plain");
-
         // 获取服务器 A 的响应
         StringBuilder jsonResponse = new StringBuilder();
         try (BufferedReader reader = new BufferedReader(new InputStreamReader(connect.getInputStream()))) {
@@ -38,18 +36,11 @@ public class getimage_banner extends HttpServlet {
             }
         }
         String[] num= jsonResponse.substring(1,jsonResponse.toString().length()-1).split(",");
-        //String[] numarray=num.split(",");
         int[] array=new int[num.length];
         for(int i=0;i<num.length;i++){
             array[i]=Integer.parseInt(num[i].trim());
         }
 
-        //System.out.println(num);
-        //System.out.println(Arrays.toString(numarray));
-        System.out.println(Arrays.toString(array));
-        for (int j : array) {
-            System.out.println(j);
-        }
         int max1=0;
         int n1=0;
         for (int i = 0; i < array.length; i++) {
@@ -68,8 +59,6 @@ public class getimage_banner extends HttpServlet {
         else {//默认
             url_banner="http://47.116.49.214:8080/ssm2bl10-1.0-SNAPSHOT/sports/banner.png";
         }
-
-         //url_banner = "http://localhost:8080/shop_war_exploded/upload/test.png";
 
         try {
             // 创建到目标服务器的连接

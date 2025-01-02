@@ -8,7 +8,6 @@ import jakarta.servlet.http.HttpServletResponse;
 import java.io.*;
 import java.net.HttpURLConnection;
 import java.net.URL;
-import java.util.Arrays;
 
 @WebServlet("/getimage_left")
 public class getimage_left extends HttpServlet {
@@ -40,16 +39,11 @@ public class getimage_left extends HttpServlet {
             }
         }
         String[] num= jsonResponse.substring(1,jsonResponse.toString().length()-1).split(",");
-        //String[] numarray=num.split(",");
         int[] array=new int[num.length];
         for(int i=0;i<num.length;i++){
             array[i]=Integer.parseInt(num[i].trim());
         }
 
-        System.out.println(Arrays.toString(array));
-        for (int j : array) {
-            System.out.println(j);
-        }
         int max1=0,max2=0;
         int n1=0,n2=0;
         for (int i = 0; i < array.length; i++) {
@@ -74,8 +68,6 @@ public class getimage_left extends HttpServlet {
         else {//默认
             url_left="http://47.116.49.214:8080/ssm2bl10-1.0-SNAPSHOT/sports/left.png";
         }
-
-        //url_left = "http://localhost:8080/shop_war_exploded/upload/test.png";
 
         try {
             // 创建到目标服务器的连接
@@ -107,7 +99,5 @@ public class getimage_left extends HttpServlet {
             response.setStatus(HttpServletResponse.SC_INTERNAL_SERVER_ERROR);
             e.printStackTrace();
         }
-
     }
-
 }
